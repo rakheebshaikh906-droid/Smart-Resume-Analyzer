@@ -1,6 +1,24 @@
+import { useState } from "react";
 import Navbar from "../components/Navbar";
+import { useNavigate } from "react-router-dom";
 
 function Upload() {
+    const [file, setFile] = useState(null);
+
+    const handleFileChange = (e) => {
+        setFile(e.target.files[0]);
+    };
+    const navigate = useNavigate();
+
+    const handleAnalyze = () => {
+        if (!file) {
+            alert("Please select a resume first!");
+            return;
+        }
+
+        navigate("/result");
+    };
+
     return (
         <>
             <Navbar />
@@ -15,12 +33,21 @@ function Upload() {
                     <input
                         type="file"
                         accept=".pdf"
-                        className="mb-8"
+                        onChange={handleFileChange}
+                        className="mb-6"
                     />
 
-                    <br />
+                    {file && (
+                        <p className="mb-6 text-green-400">
+                            Selected File: {file.name}
+                        </p>
+                    )}
 
-                    <button className="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-xl text-white font-semibold">
+                    <button
+                        onClick={handleAnalyze}
+                        className="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-xl text-white font-semibold"
+
+                    >
                         Analyze Resume
                     </button>
 

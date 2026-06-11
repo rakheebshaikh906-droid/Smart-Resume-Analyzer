@@ -8,7 +8,7 @@ function Home() {
             <div className="flex flex-col items-center justify-center text-center mt-32 px-4">
 
                 <p className="text-blue-500 font-semibold mb-4">
-                    AI Powered Resume Analysis
+                    Powered Resume Analysis
                 </p>
 
                 <h1 className="text-6xl font-bold mb-6">
