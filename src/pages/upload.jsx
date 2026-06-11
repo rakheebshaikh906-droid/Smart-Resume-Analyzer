@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
+import { extractTextFromPDF } from "../utils/pdfParser";
 
 function Upload() {
     const [file, setFile] = useState(null);
@@ -10,13 +11,22 @@ function Upload() {
     };
     const navigate = useNavigate();
 
-    const handleAnalyze = () => {
-        if (!file) {
-            alert("Please select a resume first!");
-            return;
-        }
+    const handleAnalyze = async () => {
+        try {
+            if (!file) {
+                alert("Please select a resume first!");
+                return;
+            }
 
-        navigate("/result");
+            const text = await extractTextFromPDF(file);
+
+            console.log("PDF TEXT:", text);
+
+            navigate("/result");
+        } catch (error) {
+            console.error("PDF Error:", error);
+            alert("PDF parsing failed");
+        }
     };
 
     return (
