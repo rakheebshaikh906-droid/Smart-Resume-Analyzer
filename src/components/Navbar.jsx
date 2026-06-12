@@ -6,9 +6,8 @@ function Navbar() {
             <h1 className="text-2xl font-bold text-blue-500">
             </h1>
 
-            <div className="flex gap-8 text-lg">
+            <div className="flex gap-8 text-gray-400">
                 <Link to="/">Home</Link>
-                <Link to="/upload">Upload</Link>
             </div>
         </nav>
     );

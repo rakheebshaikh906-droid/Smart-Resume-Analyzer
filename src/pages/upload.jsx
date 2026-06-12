@@ -2,6 +2,7 @@ import { useState } from "react";
 import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { extractTextFromPDF } from "../utils/pdfParser";
+import { calculateATS } from "../utils/atsCalculator";
 
 function Upload() {
     const [file, setFile] = useState(null);
@@ -22,46 +23,72 @@ function Upload() {
 
             console.log("PDF TEXT:", text);
 
-            navigate("/result");
+            const result = calculateATS(text);
+
+            console.log(result);
+
+            navigate("/result", {
+                state: result,
+            });
         } catch (error) {
             console.error("PDF Error:", error);
             alert("PDF parsing failed");
         }
+
     };
 
     return (
         <>
             <Navbar />
 
-            <div className="flex justify-center items-center mt-20">
-                <div className="w-[600px] p-8 border border-gray-700 rounded-2xl text-center">
+            <div className="min-h-screen bg-gray-950 text-white flex justify-center items-center px-4">
 
-                    <h1 className="text-5xl font-bold mb-8">
+                <div className="w-full max-w-2xl bg-gray-900 p-10 rounded-3xl shadow-xl text-center">
+
+                    <h1 className="text-5xl font-bold mb-4">
                         Upload Your Resume
                     </h1>
 
-                    <input
-                        type="file"
-                        accept=".pdf"
-                        onChange={handleFileChange}
-                        className="mb-6"
-                    />
+                    <p className="text-gray-400 mb-8">
+                        Upload your resume in PDF format and get an ATS score with skill analysis.
+                    </p>
+
+                    <div className="border-2 border-dashed border-gray-600 rounded-2xl p-10 mb-6">
+
+                        <input
+                            type="file"
+                            accept=".pdf"
+                            onChange={handleFileChange}
+                            className="mb-4"
+                        />
+
+                        <p className="text-gray-400">
+                            Only PDF files are supported
+                        </p>
+
+                    </div>
 
                     {file && (
-                        <p className="mb-6 text-green-400">
-                            Selected File: {file.name}
-                        </p>
+                        <div className="bg-gray-800 rounded-xl p-4 mb-6">
+                            <p className="text-green-400 font-semibold">
+                                Selected File:
+                            </p>
+
+                            <p className="mt-2">
+                                {file.name}
+                            </p>
+                        </div>
                     )}
 
                     <button
                         onClick={handleAnalyze}
-                        className="bg-blue-500 hover:bg-blue-600 px-6 py-3 rounded-xl text-white font-semibold"
-
+                        className="bg-blue-500 hover:bg-blue-600 transition-all px-8 py-4 rounded-xl text-white font-semibold text-lg"
                     >
                         Analyze Resume
                     </button>
 
                 </div>
+
             </div>
         </>
     );

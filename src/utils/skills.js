@@ -1,0 +1,18 @@
+export const skillsList = [
+    "Java",
+    "JavaScript",
+    "React",
+    "SQL",
+    "MySQL",
+    "Git",
+    "GitHub",
+    "Firebase",
+    "HTML",
+    "CSS",
+    "Node.js",
+    "MongoDB",
+    "Python",
+    "C",
+    "DSA",
+    "DBMS",
+];
