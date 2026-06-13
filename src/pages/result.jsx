@@ -86,6 +86,20 @@ function Result() {
                         </div>
                     </div>
 
+                    <div className="bg-gray-900 rounded-2xl p-6 shadow-lg mt-6">
+                        <h3 className="text-2xl font-semibold text-blue-400 mb-4">
+                            Suggestions
+                        </h3>
+
+                        <ul className="space-y-2 text-gray-300">
+                            {missingSkills.map((skill) => (
+                                <li key={skill}>
+                                    add {skill} to strengthen your resume.
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
                 </div>
 
                 <div className="mt-10 text-center">
