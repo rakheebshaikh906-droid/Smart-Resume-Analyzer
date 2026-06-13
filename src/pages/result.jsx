@@ -8,11 +8,15 @@ function Result() {
     const {
         score,
         foundSkills,
-        missingSkills
+        missingSkills,
+        matchScore,
+        matchedSkills,
     } = location.state || {
         score: 0,
         foundSkills: [],
         missingSkills: [],
+        matchScore: 0,
+        matchedSkills: [],
     };
     return (
         <div className="min-h-screen bg-gray-950 text-white p-10">
@@ -22,6 +26,7 @@ function Result() {
                     Resume Analysis
                 </h1>
 
+                {/* ATS Score */}
                 <div className="bg-gray-900 rounded-2xl p-8 mb-8 shadow-lg">
                     <h2 className="text-3xl font-bold text-green-400">
                         ATS Score: {score}%
@@ -50,8 +55,27 @@ function Result() {
                     </div>
                 </div>
 
+                {/* Job Match Score */}
+                <div className="bg-gray-900 rounded-2xl p-8 mb-8 shadow-lg">
+                    <h2 className="text-3xl font-bold text-blue-400">
+                        Job Match Score: {matchScore || 0}%
+                    </h2>
+
+                    <div className="w-full bg-gray-700 rounded-full h-4 mt-4">
+                        <div
+                            className="h-4 rounded-full bg-blue-500"
+                            style={{ width: `${matchScore || 0}%` }}
+                        ></div>
+                    </div>
+
+                    <p className="text-gray-400 mt-3">
+                        Matched Skills: {matchedSkills?.length || 0}
+                    </p>
+                </div>
+
                 <div className="grid md:grid-cols-2 gap-6">
 
+                    {/* Skills Found */}
                     <div className="bg-gray-900 rounded-2xl p-6 shadow-lg">
                         <h3 className="text-2xl font-semibold text-green-400 mb-4">
                             Skills Found
@@ -69,6 +93,7 @@ function Result() {
                         </div>
                     </div>
 
+                    {/* Missing Skills */}
                     <div className="bg-gray-900 rounded-2xl p-6 shadow-lg">
                         <h3 className="text-2xl font-semibold text-red-400 mb-4">
                             Missing Skills
@@ -86,22 +111,24 @@ function Result() {
                         </div>
                     </div>
 
-                    <div className="bg-gray-900 rounded-2xl p-6 shadow-lg mt-6">
-                        <h3 className="text-2xl font-semibold text-blue-400 mb-4">
-                            Suggestions
-                        </h3>
-
-                        <ul className="space-y-2 text-gray-300">
-                            {missingSkills.map((skill) => (
-                                <li key={skill}>
-                                    add {skill} to strengthen your resume.
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-
                 </div>
 
+                {/* Suggestions */}
+                <div className="bg-gray-900 rounded-2xl p-6 shadow-lg mt-6">
+                    <h3 className="text-2xl font-semibold text-blue-400 mb-4">
+                        Suggestions
+                    </h3>
+
+                    <ul className="space-y-2 text-gray-300">
+                        {missingSkills.map((skill) => (
+                            <li key={skill}>
+                                • Consider adding {skill} to strengthen your resume.
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+
+                {/* Button */}
                 <div className="mt-10 text-center">
                     <button
                         onClick={() => navigate("/upload")}

@@ -3,10 +3,12 @@ import Navbar from "../components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { extractTextFromPDF } from "../utils/pdfParser";
 import { calculateATS } from "../utils/atsCalculator";
+import { calculateJobMatch } from "../utils/jobMatcher";
 
 function Upload() {
     const [file, setFile] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [jobDescription, setJobDescription] = useState("")
 
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
@@ -26,8 +28,16 @@ function Upload() {
 
             const result = calculateATS(text);
 
+            const jobMatch = calculateJobMatch(
+                result.foundSkills,
+                jobDescription
+            );
+
             navigate("/result", {
-                state: result,
+                state: {
+                    ...result,
+                    ...jobMatch,
+                },
             });
 
         } catch (error) {
@@ -75,7 +85,6 @@ function Upload() {
                         </p>
 
                     </div>
-
                     {file && (
                         <div className="bg-gray-800 rounded-xl p-4 mb-6">
                             <p className="text-green-400 font-semibold">
@@ -87,6 +96,19 @@ function Upload() {
                             </p>
                         </div>
                     )}
+
+                    <div className="mt-6 mb-6 text-left">
+                        <label className="block text-lg font-semibold mb-3">
+                            Job Description
+                        </label>
+
+                        <textarea
+                            value={jobDescription}
+                            onChange={(e) => setJobDescription(e.target.value)}
+                            placeholder="describe the job requirements here..."
+                            className="w-full h-40 bg-gray-800 border border-gray-700 rounded-xl p-4 text-white resize-none"
+                        />
+                    </div>
 
                     <button
                         onClick={handleAnalyze}
