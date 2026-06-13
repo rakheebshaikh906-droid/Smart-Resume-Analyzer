@@ -1,7 +1,9 @@
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function Result() {
     const location = useLocation();
+    const navigate = useNavigate();
 
     const {
         score,
@@ -24,6 +26,7 @@ function Result() {
                     <h2 className="text-3xl font-bold text-green-400">
                         ATS Score: {score}%
                     </h2>
+
                     <p
                         className={`text-lg font-semibold mt-2 ${score >= 80
                             ? "text-green-400"
@@ -38,7 +41,7 @@ function Result() {
                                 ? "Good Resume"
                                 : "Needs Improvement"}
                     </p>
-                    {/* Progress Bar */}
+
                     <div className="w-full bg-gray-700 rounded-full h-4 mt-4">
                         <div
                             className="h-4 rounded-full bg-green-500"
@@ -66,18 +69,32 @@ function Result() {
                         </div>
                     </div>
 
-                    <div className="flex flex-wrap gap-3">
-                        {missingSkills.map((skill) => (
-                            <span
-                                key={skill}
-                                className="bg-red-900 text-red-300 px-4 py-2 rounded-full"
-                            >
-                                {skill}
-                            </span>
-                        ))}
+                    <div className="bg-gray-900 rounded-2xl p-6 shadow-lg">
+                        <h3 className="text-2xl font-semibold text-red-400 mb-4">
+                            Missing Skills
+                        </h3>
+
+                        <div className="flex flex-wrap gap-3">
+                            {missingSkills.map((skill) => (
+                                <span
+                                    key={skill}
+                                    className="bg-red-900 text-red-300 px-4 py-2 rounded-full"
+                                >
+                                    {skill}
+                                </span>
+                            ))}
+                        </div>
                     </div>
 
+                </div>
 
+                <div className="mt-10 text-center">
+                    <button
+                        onClick={() => navigate("/upload")}
+                        className="bg-white text-black px-6 py-3 rounded-xl font-semibold hover:scale-105 transition"
+                    >
+                        Analyze Another Resume
+                    </button>
                 </div>
 
             </div>

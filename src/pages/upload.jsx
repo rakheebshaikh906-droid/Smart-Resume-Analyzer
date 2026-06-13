@@ -6,6 +6,7 @@ import { calculateATS } from "../utils/atsCalculator";
 
 function Upload() {
     const [file, setFile] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const handleFileChange = (e) => {
         setFile(e.target.files[0]);
@@ -19,23 +20,25 @@ function Upload() {
                 return;
             }
 
+            setLoading(true);
+
             const text = await extractTextFromPDF(file);
 
-            console.log("PDF TEXT:", text);
-
             const result = calculateATS(text);
-
-            console.log(result);
 
             navigate("/result", {
                 state: result,
             });
-        } catch (error) {
-            console.error("PDF Error:", error);
-            alert("PDF parsing failed");
-        }
 
+        } catch (error) {
+            console.error(error);
+            alert("PDF parsing failed");
+        } finally {
+            setLoading(false);
+        }
     };
+
+
 
     return (
         <>
@@ -49,20 +52,25 @@ function Upload() {
                         Upload Your Resume
                     </h1>
 
-                    <p className="text-gray-400 mb-8">
-                        Upload your resume in PDF format and get an ATS score with skill analysis.
-                    </p>
+                    <div className="border-2 border-dashed border-gray-700 rounded-2xl p-10 mb-6">
 
-                    <div className="border-2 border-dashed border-gray-600 rounded-2xl p-10 mb-6">
+                        <label
+                            htmlFor="resume-upload"
+                            className="cursor-pointer bg-white text-black px-6 py-3 rounded-xl font-semibold inline-block hover:scale-105 transition"
+                        >
+                            Choose Resume
+                        </label>
 
                         <input
+                            id="resume-upload"
                             type="file"
                             accept=".pdf"
                             onChange={handleFileChange}
-                            className="mb-4"
+                            className="hidden"
                         />
 
-                        <p className="text-gray-400">
+                        <p className="text-gray-500 mt-4">
+                            <br></br>
                             Only PDF files are supported
                         </p>
 
@@ -71,10 +79,10 @@ function Upload() {
                     {file && (
                         <div className="bg-gray-800 rounded-xl p-4 mb-6">
                             <p className="text-green-400 font-semibold">
-                                Selected File:
+                                Selected Resume
                             </p>
 
-                            <p className="mt-2">
+                            <p className="mt-2 text-gray-300 break-all">
                                 {file.name}
                             </p>
                         </div>
@@ -82,9 +90,10 @@ function Upload() {
 
                     <button
                         onClick={handleAnalyze}
-                        className="bg-blue-500 hover:bg-blue-600 transition-all px-8 py-4 rounded-xl text-white font-semibold text-lg"
+                        disabled={loading}
+                        className="bg-white text-black px-8 py-4 rounded-xl font-semibold"
                     >
-                        Analyze Resume
+                        {loading ? "Analyzing Resume..." : "Analyze Resume"}
                     </button>
 
                 </div>
