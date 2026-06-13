@@ -24,6 +24,27 @@ function Result() {
                     <h2 className="text-3xl font-bold text-green-400">
                         ATS Score: {score}%
                     </h2>
+                    <p
+                        className={`text-lg font-semibold mt-2 ${score >= 80
+                            ? "text-green-400"
+                            : score >= 60
+                                ? "text-yellow-400"
+                                : "text-red-400"
+                            }`}
+                    >
+                        {score >= 80
+                            ? "Excellent Resume"
+                            : score >= 60
+                                ? "Good Resume"
+                                : "Needs Improvement"}
+                    </p>
+                    {/* Progress Bar */}
+                    <div className="w-full bg-gray-700 rounded-full h-4 mt-4">
+                        <div
+                            className="h-4 rounded-full bg-green-500"
+                            style={{ width: `${score}%` }}
+                        ></div>
+                    </div>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-6">
@@ -33,28 +54,29 @@ function Result() {
                             Skills Found
                         </h3>
 
-                        <ul className="space-y-2">
+                        <div className="flex flex-wrap gap-3">
                             {foundSkills.map((skill) => (
-                                <li key={skill}>
-                                    ✓ {skill}
-                                </li>
+                                <span
+                                    key={skill}
+                                    className="bg-green-900 text-green-300 px-4 py-2 rounded-full"
+                                >
+                                    {skill}
+                                </span>
                             ))}
-                        </ul>
+                        </div>
                     </div>
 
-                    <div className="bg-gray-900 rounded-2xl p-6 shadow-lg">
-                        <h3 className="text-2xl font-semibold text-red-400 mb-4">
-                            Missing Skills
-                        </h3>
-
-                        <ul className="space-y-2">
-                            {missingSkills.map((skill) => (
-                                <li key={skill}>
-                                    ✗ {skill}
-                                </li>
-                            ))}
-                        </ul>
+                    <div className="flex flex-wrap gap-3">
+                        {missingSkills.map((skill) => (
+                            <span
+                                key={skill}
+                                className="bg-red-900 text-red-300 px-4 py-2 rounded-full"
+                            >
+                                {skill}
+                            </span>
+                        ))}
                     </div>
+
 
                 </div>
 
