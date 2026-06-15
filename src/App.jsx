@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Upload from "./pages/Upload";
-import Result from "./pages/Result";
+import Home from "./pages/home";
+import Upload from "./pages/upload";
+import Result from "./pages/result";
 
 function App() {
   return (
